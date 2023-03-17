@@ -34,8 +34,6 @@ model Plan {
   User        User?     @relation(fields: [userId], references: [id])
   userId      String?
   Reviews     Reviews[]
-
-  //   @@unique([id, userId]) proveri so znaci
 }
 
 model Reviews {

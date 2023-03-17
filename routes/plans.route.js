@@ -1,18 +1,17 @@
-// const plansRouter = require("express").Router();
-// const PlansController = require("../controllers/author.controller");
-// const { validateBody } = require("../middlewares/validator.middleware");
-// const {
-//   createAuthorSchemaValidation,
-// } = require("../utils/validations/author.validation");
+const plansRouter = require("express").Router();
+const { Role } = require("../constants");
+const PlansController = require("../controllers/plans.controller");
+const { isCoach } = require("../middlewares/coach.middleware");
+const { validateData } = require("../middlewares/validator.middleware");
+const {
+  planSchemaValidation,
+} = require("../utils/validations/plans.validation");
 
-// plansRouter
-//   .route("/")
-//   .get(AuthorController.allAuthors)
-//   .post(
-//     validateBody(createAuthorSchemaValidation),
-//     AuthorController.createAuthor
-//   );
+plansRouter.post(
+  "/create",
+  validateData(planSchemaValidation),
+  isCoach(Role.Coach),
+  PlansController.createPlan
+);
 
-// router.route("/:id").get(AuthorController.getOneAuthor);
-
-// module.exports = plansRouter;
+module.exports = plansRouter;
