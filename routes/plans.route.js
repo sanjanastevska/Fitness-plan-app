@@ -8,12 +8,14 @@ const {
 } = require("../utils/validations/plans.validation");
 
 plansRouter
+  .get("/:id", PlansController.getPlan)
   .post(
     "/create",
     validateData(planSchemaValidation),
     isCoach(Role.Coach),
     PlansController.createPlan
   )
-  .patch("/update/:id", isCoach(Role.Coach), PlansController.editPlan);
+  .patch("/update/:id", isCoach(Role.Coach), PlansController.editPlan)
+  .delete("/:id", isCoach(Role.Coach), PlansController.deletePlan);
 
 module.exports = plansRouter;

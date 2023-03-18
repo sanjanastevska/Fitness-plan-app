@@ -42,6 +42,13 @@ const editPlan = async (data) => {
   return plan;
 };
 
+const deletePlan = async (id) => {
+  console.log(id);
+  await prisma.plan.delete({
+    where: id,
+  });
+};
+
 const checkTakenTitle = async (title) => {
   const plan = await prisma.plan.findFirst({
     where: title,
@@ -53,5 +60,6 @@ module.exports = {
   getPlan,
   createPlan,
   editPlan,
+  deletePlan,
   checkTakenTitle,
 };
