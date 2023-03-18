@@ -8,7 +8,7 @@ const createPlan = async (req, res, next) => {
     const startDate = moment(data.startDate, "DD.MM.YYYY").toDate();
     const endDate = moment(data.endDate, "DD.MM.YYYY").toDate();
 
-    const existingPlan = await PlanService.checkPlanExists({
+    const existingPlan = await PlanService.checkTakenTitle({
       title: data.title,
     });
 
@@ -37,6 +37,44 @@ const createPlan = async (req, res, next) => {
   await next;
 };
 
+const editPlan = async (req, res, next) => {
+  const data = req.body;
+  try {
+    const postId = req.params.id;
+    const startDate =
+      data.startDate && moment(data.startDate, "DD.MM.YYYY").toDate();
+    const endDate = data.endDate && moment(data.endDate, "DD.MM.YYYY").toDate();
+
+    const existingPlan = await PlanService.getPlan({
+      id: postId,
+    });
+
+    if (!existingPlan) {
+      return res.status(404).json({
+        message: `The plan doesn't exist`,
+      });
+    }
+
+    const plan = await PlanService.editPlan({
+      id: postId,
+      ...data,
+      startDate,
+      endDate,
+    });
+
+    return res.status(200).json({
+      message: "The fitness plan is updated.",
+      plan,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+  await next;
+};
+
 module.exports = {
   createPlan,
+  editPlan,
 };

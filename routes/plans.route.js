@@ -7,11 +7,13 @@ const {
   planSchemaValidation,
 } = require("../utils/validations/plans.validation");
 
-plansRouter.post(
-  "/create",
-  validateData(planSchemaValidation),
-  isCoach(Role.Coach),
-  PlansController.createPlan
-);
+plansRouter
+  .post(
+    "/create",
+    validateData(planSchemaValidation),
+    isCoach(Role.Coach),
+    PlansController.createPlan
+  )
+  .patch("/update/:id", isCoach(Role.Coach), PlansController.editPlan);
 
 module.exports = plansRouter;

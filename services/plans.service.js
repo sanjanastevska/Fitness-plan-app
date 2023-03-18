@@ -1,7 +1,16 @@
 const prisma = require("../prisma/prisma-client");
 
+const getPlan = async (data) => {
+  const plan = await prisma.plan.findUnique({
+    where: {
+      id: data.id,
+    },
+  });
+
+  return plan;
+};
+
 const createPlan = async (data) => {
-  console.log("DATA", data);
   const plan = await prisma.plan.create({
     data: {
       title: data.title,
@@ -20,7 +29,20 @@ const createPlan = async (data) => {
   return plan;
 };
 
-const checkPlanExists = async (title) => {
+const editPlan = async (data) => {
+  const plan = await prisma.plan.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      ...data,
+    },
+  });
+
+  return plan;
+};
+
+const checkTakenTitle = async (title) => {
   const plan = await prisma.plan.findFirst({
     where: title,
   });
@@ -28,6 +50,8 @@ const checkPlanExists = async (title) => {
 };
 
 module.exports = {
+  getPlan,
   createPlan,
-  checkPlanExists,
+  editPlan,
+  checkTakenTitle,
 };
