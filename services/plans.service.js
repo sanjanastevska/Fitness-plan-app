@@ -10,6 +10,22 @@ const getPlan = async (data) => {
   return plan;
 };
 
+const getActivePlan = async ({ id }) => {
+  const plan = await prisma.plan.findFirst({
+    where: {
+      id,
+      startDate: {
+        lte: new Date(),
+      },
+      endDate: {
+        gte: new Date(),
+      },
+    },
+  });
+
+  return plan;
+};
+
 const createPlan = async (data) => {
   const plan = await prisma.plan.create({
     data: {
@@ -43,7 +59,6 @@ const editPlan = async (data) => {
 };
 
 const deletePlan = async (id) => {
-  console.log(id);
   await prisma.plan.delete({
     where: id,
   });
@@ -56,10 +71,40 @@ const checkTakenTitle = async (title) => {
   return plan !== null;
 };
 
+const getSubscribtions = async (planId) => {
+  const subscribtions = await prisma.subscription.findMany({
+    where: {
+      planId: planId,
+    },
+    select: {
+      userId: true,
+    },
+  });
+
+  return subscribtions;
+};
+
+const subscribeToPlan = async (planId, subscriberId) => {
+  const plan = await prisma.subscription.create({
+    data: {
+      user: {
+        connect: { id: subscriberId },
+      },
+      plan: {
+        connect: { id: planId },
+      },
+    },
+  });
+  return plan;
+};
+
 module.exports = {
   getPlan,
+  getActivePlan,
   createPlan,
   editPlan,
   deletePlan,
   checkTakenTitle,
+  getSubscribtions,
+  subscribeToPlan,
 };

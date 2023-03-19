@@ -9,11 +9,17 @@ const {
 
 plansRouter
   .get("/:id", PlansController.getPlan)
+  .get("/:id/all-subscribers", PlansController.getAllSubscribersPerPlan)
   .post(
     "/create",
     validateData(planSchemaValidation),
     isCoach(Role.Coach),
     PlansController.createPlan
+  )
+  .post(
+    "/:id/subscribe",
+    isCoach(Role.Subscriber),
+    PlansController.subscribeToPlan
   )
   .patch("/update/:id", isCoach(Role.Coach), PlansController.editPlan)
   .delete("/:id", isCoach(Role.Coach), PlansController.deletePlan);
