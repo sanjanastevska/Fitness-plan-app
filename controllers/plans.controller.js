@@ -40,7 +40,6 @@ const getAllSubscribersPerPlan = async (req, res, next) => {
   await next;
 };
 
-// update if it is an active plan
 const subscribeToPlan = async (req, res, next) => {
   try {
     const planId = req.params.id;
