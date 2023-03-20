@@ -1,4 +1,4 @@
-const isCoach = (role) => (req, res, next) => {
+const validateRole = (role) => (req, res, next) => {
   if (req.user.role === role) {
     return next();
   }
@@ -7,4 +7,4 @@ const isCoach = (role) => (req, res, next) => {
     .json({ message: "You don't have permission to access this route" });
 };
 
-module.exports = { isCoach };
+module.exports = { validateRole };

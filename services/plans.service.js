@@ -26,6 +26,50 @@ const getActivePlan = async ({ id }) => {
   return plan;
 };
 
+const getActivePlansByCoach = async ({ coachId }) => {
+  const plans = await prisma.plan.findMany({
+    where: {
+      userId: coachId,
+      startDate: {
+        lte: new Date(),
+      },
+      endDate: {
+        gte: new Date(),
+      },
+    },
+  });
+
+  return plans;
+};
+
+const getAllActivePlans = async () => {
+  const plans = await prisma.plan.findMany({
+    where: {
+      startDate: {
+        lte: new Date(),
+      },
+      endDate: {
+        gte: new Date(),
+      },
+    },
+  });
+
+  return plans;
+};
+
+const allSubscribtions = async ({ subscriberId }) => {
+  const plans = await prisma.subscription.findMany({
+    where: {
+      userId: subscriberId,
+    },
+    select: {
+      plan: true,
+    },
+  });
+
+  return plans;
+};
+
 const createPlan = async (data) => {
   const plan = await prisma.plan.create({
     data: {
@@ -107,4 +151,7 @@ module.exports = {
   checkTakenTitle,
   getSubscribtions,
   subscribeToPlan,
+  getAllActivePlans,
+  getActivePlansByCoach,
+  allSubscribtions,
 };
