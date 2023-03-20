@@ -1,18 +1,11 @@
-// const reviewsRouter = require("express").Router();
-// const ReviewsController = require("../controllers/author.controller");
-// const { validateBody } = require("../middlewares/validator.middleware");
-// const {
-//   createAuthorSchemaValidation,
-// } = require("../utils/validations/author.validation");
+const reviewsRouter = require("express").Router();
+const { Role } = require("../constants");
+const ReviewController = require("../controllers/review.controller");
+const { validateRole } = require("../middlewares/role.middleware");
 
-// reviewsRouter
-//   .route("/")
-//   .get(AuthorController.allAuthors)
-//   .post(
-//     validateBody(createAuthorSchemaValidation),
-//     AuthorController.createAuthor
-//   );
+reviewsRouter.post(
+  validateRole(Role.Subscriber),
+  ReviewController.createReview
+);
 
-// reviewsRouter.route("/:id").get(AuthorController.getOneAuthor);
-
-// module.exports = reviewsRouter;
+module.exports = reviewsRouter;
