@@ -12,6 +12,19 @@ const planSchemaValidation = Joi.object({
   userId: Joi.string().required(),
 });
 
+const editPlanSchemaValidation = Joi.object({
+  title: Joi.string().optional(),
+  description: Joi.string().max(200).optional(),
+  startDate: Joi.string()
+    .pattern(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
+    .optional(),
+  endDate: Joi.string()
+    .pattern(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
+    .optional(),
+  userId: Joi.string(),
+});
+
 module.exports = {
   planSchemaValidation,
+  editPlanSchemaValidation,
 };

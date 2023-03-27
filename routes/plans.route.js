@@ -5,6 +5,7 @@ const { validateRole } = require("../middlewares/role.middleware");
 const { validateData } = require("../middlewares/validator.middleware");
 const {
   planSchemaValidation,
+  editPlanSchemaValidation,
 } = require("../utils/validations/plans.validation");
 
 plansRouter
@@ -34,8 +35,12 @@ plansRouter
     validateRole(Role.Coach),
     PlansController.createPlan
   )
-  //  to validate the data before edit
-  .patch("/update/:id", validateRole(Role.Coach), PlansController.editPlan)
+  .patch(
+    "/update/:id",
+    validateData(editPlanSchemaValidation),
+    validateRole(Role.Coach),
+    PlansController.editPlan
+  )
   .delete("/:id", validateRole(Role.Coach), PlansController.deletePlan)
   .post(
     "/:id/subscribe",
