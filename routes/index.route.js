@@ -6,6 +6,6 @@ const reviewsRouter = require("./reviews.route");
 
 router.use("/auth", authRouter);
 router.use("/plans", authMiddleware, plansRouter);
-router.use("/reviews", reviewsRouter);
+router.use("/reviews", authMiddleware, reviewsRouter);
 
 module.exports = router;

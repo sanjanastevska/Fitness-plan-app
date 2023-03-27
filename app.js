@@ -16,6 +16,7 @@ app.use(helmet());
 app.use("/", router);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   if (err && err.code && err.code == 401) {
     return res.status(err.code).json({ message: "Invalid data sent" });
   }

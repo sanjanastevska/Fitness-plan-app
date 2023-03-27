@@ -24,6 +24,7 @@ model User {
   updatedAt    DateTime       @default(now()) @updatedAt
   plan         Plan[]
   subscribedTo Subscription[]
+  Reviews      Reviews[]
 }
 
 model Plan {
@@ -44,8 +45,10 @@ model Reviews {
   rating    Int
   planId    String
   plan      Plan     @relation(fields: [planId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  userId    String?
 }
 
 model Subscription {

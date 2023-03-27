@@ -10,6 +10,28 @@ const getPlan = async (data) => {
   return plan;
 };
 
+const getExpiredPlan = async ({ planId, userId }) => {
+  const plan = await prisma.plan.findFirst({
+    where: {
+      id: planId,
+      endDate: {
+        lte: new Date(),
+      },
+      subscribers: {
+        some: {
+          userId,
+        },
+      },
+    },
+    include: {
+      Reviews: true,
+      User: true,
+    },
+  });
+
+  return plan;
+};
+
 const getActivePlan = async ({ id }) => {
   const plan = await prisma.plan.findFirst({
     where: {
@@ -144,6 +166,7 @@ const subscribeToPlan = async (planId, subscriberId) => {
 
 module.exports = {
   getPlan,
+  getExpiredPlan,
   getActivePlan,
   createPlan,
   editPlan,
