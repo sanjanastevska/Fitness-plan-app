@@ -9,7 +9,6 @@ const planSchemaValidation = Joi.object({
   endDate: Joi.string()
     .pattern(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
     .required(),
-  userId: Joi.string().required(),
 });
 
 const editPlanSchemaValidation = Joi.object({
