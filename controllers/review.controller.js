@@ -55,12 +55,20 @@ const createReview = async (req, res) => {
       userId: subscriberId,
     });
 
-    console.log("expiredPlan", expiredPlan);
-
     if (!expiredPlan) {
       return res.status(403).json({
         message:
           "You are not subscribed to this plan or the plan is not expired",
+      });
+    }
+
+    const existingReview = await ReviewService.getReviewByUser({
+      subscriberId,
+      planId,
+    });
+    if (existingReview) {
+      return res.status(400).json({
+        message: "Review is already submitted",
       });
     }
 

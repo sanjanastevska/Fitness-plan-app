@@ -1,5 +1,16 @@
 const prisma = require("../prisma/prisma-client");
 
+const getReviewByUser = async ({ userId, planId }) => {
+  const review = await prisma.reviews.findFirst({
+    where: {
+      planId,
+      userId,
+    },
+  });
+
+  return review;
+};
+
 const getReviews = async ({ planId }) => {
   const reviews = await prisma.reviews.findMany({
     where: {
@@ -54,4 +65,4 @@ const createReview = async (data) => {
   return review;
 };
 
-module.exports = { getReviews, getAllReviews, createReview };
+module.exports = { getReviews, getAllReviews, createReview, getReviewByUser };
